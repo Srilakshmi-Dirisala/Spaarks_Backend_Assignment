@@ -115,6 +115,30 @@ const addrestaurantsServices=async(req,res)=>{
       throw new Error 
   }
 }
+
+
+const getrestaurantsServices=async(req,res)=>{
+  try {
+    
+    const getrestaurant =await Restaurant.find()
+   if(getrestaurant.length>0){
+     const response=getrestaurant.map((x)=>({
+      "id":x._id,
+      "restaurantName":x.name,
+      "description":x.description,
+      "ratings":x.ratings,
+      "location":x.location
+     }))
+
+    return{status: 200,message:'success',data:response}
+   }
+ return{status:300,message:'Data not found',data:[]}
+      
+  } catch (error) {
+      console.log("error",error);
+      throw new Error 
+  }
+}
 module.exports={
-    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices
+    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices
 }
