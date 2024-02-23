@@ -1,5 +1,5 @@
 const express=require('express');
-const { registerController, loginController, restaurantsnearbyController, restaurantsrangeController,addrestaurantsController, getrestaurantsController}=require("../controllers/demo_controller");
+const { registerController, loginController, restaurantsnearbyController, restaurantsrangeController,addrestaurantsController, getrestaurantsController,getrestaurantsbyidController}=require("../controllers/demo_controller");
 var router=express.Router();
 
 router.post('/api/auth/register',registerController)
@@ -15,4 +15,7 @@ router.post('/addrestaurants',addrestaurantsController)
 
 /***get all restaurants data */
 router.get('/getrestaurants',getrestaurantsController)
+
+// Retrieve a single restaurant by ID
+router.get('/getrestaurants/:id',getrestaurantsbyidController)
 module.exports=router

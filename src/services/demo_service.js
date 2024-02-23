@@ -139,6 +139,26 @@ const getrestaurantsServices=async(req,res)=>{
       throw new Error 
   }
 }
+
+const getrestaurantsbyidServices=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const getrestaurant =await Restaurant.findById(id)
+    if(!getrestaurant){
+      return{status:404,message:'Restaurant not found',data:[]}
+    }
+    console.log("getrestaurant",getrestaurant);
+   
+
+    return{status: 200,message:'success',data:getrestaurant}
+   
+ 
+      
+  } catch (error) {
+      console.log("error",error);
+      throw new Error 
+  }
+}
 module.exports={
-    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices
+    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices,getrestaurantsbyidServices
 }

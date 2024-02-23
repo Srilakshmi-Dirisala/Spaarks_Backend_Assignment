@@ -1,4 +1,4 @@
-const {registerServices, loginServices, restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices}=require('../services/demo_service')
+const {registerServices, loginServices, restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices,getrestaurantsbyidServices}=require('../services/demo_service')
 
 const registerController=async(req,res)=>{
     callservices(registerServices,req,res)
@@ -25,6 +25,10 @@ const addrestaurantsController=async(req,res)=>{
 const getrestaurantsController=async(req,res)=>{
     callservices(getrestaurantsServices,req,res)
 }
+
+const getrestaurantsbyidController=async(req,res)=>{
+    callservices(getrestaurantsbyidServices,req,res)
+}
 const callservices=async(method,req,res)=>{
     try {
         var result=await method(req)
@@ -44,5 +48,6 @@ const callservices=async(method,req,res)=>{
 }
 
 module.exports={
-    registerController,loginController,restaurantsnearbyController,restaurantsrangeController,addrestaurantsController,getrestaurantsController
+    registerController,loginController,restaurantsnearbyController,restaurantsrangeController,addrestaurantsController,
+    getrestaurantsController,getrestaurantsbyidController
 }
