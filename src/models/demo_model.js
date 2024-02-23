@@ -18,7 +18,7 @@ const restaurantSchema = new mongoose.Schema({
     coordinates: {
       type: [Number],
       required: true,
-      index: "2dsphere"
+      index:{ type: "2dsphere", sparse: true } 
     }
   },
   ratings: [{

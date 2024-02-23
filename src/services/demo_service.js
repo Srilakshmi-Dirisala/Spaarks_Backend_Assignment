@@ -50,51 +50,67 @@ const loginServices = async (req, res) => {
       return{status:500,message:'Internal server error',data:[]};
   }
 }
-const restaurantsnearbyServices=async(req,res)=>{
+const restaurantsnearbyServices = async (req, res) => {
   try {
-      const { latitude,logitude,radius } = req.query;
-      let restaurantsDetails = await Restaurant.find({location:{
-        $near:{
-          $geometry:{
-            type:'Point',
-            coordinates:[parseFloat(logitude),parseFloat(latitude)]
+    const { latitude, longitude, radius } = req.query;
+    const parsedLatitude = parseFloat(latitude);
+    const parsedLongitude = parseFloat(longitude);
+    const parsedRadius = parseFloat(radius);
 
-          },
-          $maxDistance:parseFloat(radius)
+    console.log("latitudelatitudelatitude", parsedLatitude, parsedLongitude, parsedRadius);
+
+    const restaurantsDetails = await Restaurant.aggregate([
+      {
+        $geoNear: {
+          near: { type: 'Point', coordinates: [parsedLongitude, parsedLatitude] },
+          distanceField: 'distance', // Optional, if you want to include distance in the result
+          maxDistance: parsedRadius, // Radius in meters
+          spherical: true
         }
-      }});
-      return{status: 200,message:'success',data:restaurantsDetails}
-      
+      }
+    ]);
+          console.log("restaurantsDetails",restaurantsDetails);
+    return { status: 200, message: 'success', data: restaurantsDetails };
   } catch (error) {
-      console.log("error",error);
-      throw new Error 
+    console.log("Error:", error);
+    throw new Error();
   }
-}
+};
 
 
-const restaurantsrangeServices=async(req,res)=>{
+
+
+const restaurantsrangeServices = async (req, res) => {
   try {
     const { latitude, longitude, minDistance, maxDistance } = req.query;
-      let restaurantsrangeDetails = await Restaurant.find({location:{
-       location:{
-        $near:{
-          $geometry:{
-            type:'Point',
-            coordinates:[parseFloat(longitude),parseFloat(latitude)]
+    const parsedLatitude = parseFloat(latitude);
+    const parsedLongitude = parseFloat(longitude);
+    const parsedminDistance = parseFloat(minDistance);
+    const parsedmaxDistance = parseFloat(maxDistance);
+    console.log("latitudelatitudelatitude", latitude, longitude, minDistance, maxDistance);
+    let restaurantsrangeDetails = await Restaurant.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [parsedLongitude, parsedLatitude]
           },
-          $minDistance:parseInt(minDistance),
-          $maxDistance:parseInt(maxDistance)
+          distanceField: 'distance',
+          minDistance: parsedminDistance,
+          maxDistance: parsedmaxDistance,
+          spherical: true
         }
-       }
-      }});
+      }
+    ]);
 
-      return{status: 200,message:'success',data:restaurantsrangeDetails}
-      
+    return { status: 200, message: 'success', data: restaurantsrangeDetails };
+
   } catch (error) {
-      console.log("error",error);
-      throw new Error 
+    console.log("error", error);
+    throw new Error();
   }
 }
+
 
 
 const addrestaurantsServices=async(req,res)=>{
