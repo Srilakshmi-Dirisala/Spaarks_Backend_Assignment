@@ -177,7 +177,26 @@ const updaterestaurantsbyidServices=async(req,res)=>{
     console.log("getrestaurant",getrestaurant);
    
 
-    return{status: 200,message:'Updated successfully',data:getrestaurant}
+    return{status: 200,message:'Updated successfully',data:[]}
+   
+ 
+      
+  } catch (error) {
+      console.log("error",error);
+      throw new Error 
+  }
+}
+const deleterestaurantsbyidServices=async(req,res)=>{
+  try {
+    const id=req.params.id
+    const getrestaurant =await Restaurant.findByIdAndDelete(id)
+    if(!getrestaurant){
+      return{status:404,message:'Restaurant not found',data:[]}
+    }
+    console.log("getrestaurant",getrestaurant);
+   
+
+    return{status: 200,message:'Restaurant deleted successfully',data:[]}
    
  
       
@@ -189,5 +208,5 @@ const updaterestaurantsbyidServices=async(req,res)=>{
 
 module.exports={
     registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,
-    getrestaurantsServices,getrestaurantsbyidServices,updaterestaurantsbyidServices
+    getrestaurantsServices,getrestaurantsbyidServices,updaterestaurantsbyidServices,deleterestaurantsbyidServices
 }

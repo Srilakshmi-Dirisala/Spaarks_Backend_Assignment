@@ -1,6 +1,6 @@
 const express=require('express');
 const { registerController, loginController, restaurantsnearbyController, restaurantsrangeController,addrestaurantsController, 
-    getrestaurantsController,getrestaurantsbyidController,updaterestaurantsbyidController}=require("../controllers/demo_controller");
+    getrestaurantsController,getrestaurantsbyidController,updaterestaurantsbyidController,deleterestaurantsbyidController}=require("../controllers/demo_controller");
 var router=express.Router();
 
 router.post('/api/auth/register',registerController)
@@ -24,4 +24,7 @@ router.get('/getrestaurants/:id',getrestaurantsbyidController)
 
 router.put('/updaterestaurants/:id',updaterestaurantsbyidController)
 
+/**delete data based on id */
+
+router.delete('/deleterestaurants/:id',deleterestaurantsbyidController)
 module.exports=router
