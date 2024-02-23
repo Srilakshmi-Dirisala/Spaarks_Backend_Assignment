@@ -159,6 +159,35 @@ const getrestaurantsbyidServices=async(req,res)=>{
       throw new Error 
   }
 }
+
+
+
+const updaterestaurantsbyidServices=async(req,res)=>{
+  try {
+    const { name, description, latitude, longitude, ratings } = req.body;
+    const id=req.params.id
+    const getrestaurant =await Restaurant.findByIdAndUpdate(id,{
+      name,description,
+      location:{type:'Point',coordinates:[parseFloat(longitude),parseFloat(latitude)]},
+      ratings
+    },{new :true})
+    if(!getrestaurant){
+      return{status:404,message:'Restaurant not found',data:[]}
+    }
+    console.log("getrestaurant",getrestaurant);
+   
+
+    return{status: 200,message:'Updated successfully',data:getrestaurant}
+   
+ 
+      
+  } catch (error) {
+      console.log("error",error);
+      throw new Error 
+  }
+}
+
 module.exports={
-    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,getrestaurantsServices,getrestaurantsbyidServices
+    registerServices,loginServices,restaurantsnearbyServices,restaurantsrangeServices,addrestaurantsServices,
+    getrestaurantsServices,getrestaurantsbyidServices,updaterestaurantsbyidServices
 }
