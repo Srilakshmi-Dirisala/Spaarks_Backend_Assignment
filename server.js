@@ -6,3 +6,4 @@ const {port=5500}=require('./config');
 server.listen(port,async()=>{
     console.log(`server is running at http://localhost:${port}`);
 })
+console.log(process.version)
